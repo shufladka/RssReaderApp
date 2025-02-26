@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RssReaderApp</string>
+    <string name="title_home">Главная</string>
+    <string name="title_favorite">Избранное</string>
+</resources>
