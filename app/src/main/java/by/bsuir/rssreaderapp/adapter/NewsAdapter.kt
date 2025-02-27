@@ -1,4 +1,4 @@
-package by.bsuir.rssreaderapp
+package by.bsuir.rssreaderapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,21 +8,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import by.bsuir.rssreaderapp.R
 import by.bsuir.rssreaderapp.model.Item
 import com.bumptech.glide.Glide
 
-class NewsAdapter : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
+class NewsAdapter(private val onItemClick: (Item) -> Unit) : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     class NewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.textTitle)
         val date: TextView = view.findViewById(R.id.txtPubdate)
         val image: ImageView = view.findViewById(R.id.imageNews)
-//        val description: TextView = view.findViewById(R.id.txtDescription)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
         return NewsViewHolder(view)
     }
 
@@ -30,7 +29,6 @@ class NewsAdapter : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallba
         val item = getItem(position)
         holder.title.text = item.title
         holder.date.text = item.pubDate
-//        holder.description.text = item.description
 
         // Загрузка изображения с использованием Glide
         if (item.thumbnail.isNotEmpty()) {
@@ -41,6 +39,11 @@ class NewsAdapter : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallba
                 .into(holder.image)
         } else {
             holder.image.setImageResource(R.drawable.ic_launcher_background) // Заглушка, если нет изображения
+        }
+
+        // Обработка нажатия на карточку
+        holder.itemView.setOnClickListener {
+            onItemClick(item) // Передаем выбранный объект новости в activity
         }
     }
 }

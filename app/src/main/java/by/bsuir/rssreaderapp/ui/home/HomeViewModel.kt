@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import by.bsuir.rssreaderapp.R
 import by.bsuir.rssreaderapp.common.RetrofitServiceGenerator
 import by.bsuir.rssreaderapp.model.Item
 import by.bsuir.rssreaderapp.model.RSSObject
