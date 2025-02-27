@@ -1,7 +1,9 @@
 package by.bsuir.rssreaderapp.common
 
+import by.bsuir.rssreaderapp.BuildConfig
 import by.bsuir.rssreaderapp.interfaces.FeedService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -19,11 +21,11 @@ class RetrofitServiceGenerator {
 
         private fun builderHttpClient(): OkHttpClient {
             val client = OkHttpClient.Builder()
-//            if (BuildConfig.DEBUG) {
-//                val logging = HttpLoggingInterceptor()
-//                logging.level = HttpLoggingInterceptor.Level.BODY
-//                client.addInterceptor(logging)
-//            }
+            if (BuildConfig.DEBUG) {
+                val logging = HttpLoggingInterceptor()
+                logging.level = HttpLoggingInterceptor.Level.BODY
+                client.addInterceptor(logging)
+            }
             return client.build()
         }
     }

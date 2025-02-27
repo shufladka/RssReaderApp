@@ -28,7 +28,7 @@ class NewsAdapter : ListAdapter<News, NewsAdapter.NewsViewHolder>(NewsDiffCallba
         val news = getItem(position)
         holder.title.text = news.title
         holder.date.text = news.date
-        holder.image.setImageResource(news.imageRes)
+        holder.image.setImageResource(R.drawable.ic_launcher_background)
     }
 }
 

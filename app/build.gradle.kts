@@ -21,7 +21,7 @@ android {
         create("debugPG") {
             isDebuggable = false
             isMinifyEnabled = true
-            versionNameSuffix = " debugPG"
+            versionNameSuffix = "debugPG"
             matchingFallbacks.add("debug")
 
             proguardFiles(
@@ -45,7 +45,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        compose = true
+//        compose = true
         buildConfig = true
         viewBinding = true
     }
@@ -66,6 +66,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.logging.interceptor)
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
