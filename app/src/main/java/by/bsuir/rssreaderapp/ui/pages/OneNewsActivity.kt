@@ -10,6 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import by.bsuir.rssreaderapp.R
 
 class OneNewsActivity : AppCompatActivity() {
+
+    var title = ""
+    var date = ""
+    var link = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

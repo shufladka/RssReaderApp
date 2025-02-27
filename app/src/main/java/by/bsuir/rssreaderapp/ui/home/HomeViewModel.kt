@@ -3,7 +3,7 @@ package by.bsuir.rssreaderapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import by.bsuir.rssreaderapp.News
+import by.bsuir.rssreaderapp.model.News
 import by.bsuir.rssreaderapp.R
 
 class HomeViewModel : ViewModel() {
