@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Настраиваем RecyclerView
+        // Настройка RecyclerView
         newsAdapter = NewsAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = newsAdapter
