@@ -59,6 +59,11 @@ class HomeFragment : Fragment() {
         // Обновляем список новостей в адаптере при изменении данных
         homeViewModel.news.observe(viewLifecycleOwner) { newsList ->
             newsAdapter.submitList(newsList)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            homeViewModel.loadRSS()
         }
 
         return root

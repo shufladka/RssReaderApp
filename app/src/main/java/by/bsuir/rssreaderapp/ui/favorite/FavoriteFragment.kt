@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.bsuir.rssreaderapp.adapter.NewsAdapter
 import by.bsuir.rssreaderapp.databinding.FragmentFavoriteBinding
-import by.bsuir.rssreaderapp.model.Item
 import by.bsuir.rssreaderapp.DatabaseHelper
 import by.bsuir.rssreaderapp.ui.pages.OneNewsActivity
 
@@ -61,8 +60,12 @@ class FavoriteFragment : Fragment() {
 
         // Наблюдаем за изменениями в favoriteItems
         favoriteViewModel.favoriteItems.observe(viewLifecycleOwner) { favoriteItems ->
-            // Обновляем адаптер с новыми данными
             newsAdapter.submitList(favoriteItems)
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            favoriteViewModel.loadFavoriteNews()
         }
 
         return root
