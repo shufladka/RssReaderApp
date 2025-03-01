@@ -3,6 +3,7 @@ package by.bsuir.rssreaderapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
@@ -12,12 +13,19 @@ import by.bsuir.rssreaderapp.R
 import by.bsuir.rssreaderapp.model.Item
 import com.bumptech.glide.Glide
 
-class NewsAdapter(private val onItemClick: (Item) -> Unit) : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
+class NewsAdapter(
+    private val showReadLater: Boolean, // Определяет, в каком фрагменте отображаются элементы
+    private val onItemClick: (Item) -> Unit,
+    private val onReadLaterClick: (Item) -> Unit,  // Обработчик для "Читать позже"
+    private val onRemoveFavoriteClick: (Item) -> Unit // Обработчик для "Удалить из избранного"
+) : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     class NewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.textTitle)
         val date: TextView = view.findViewById(R.id.txtPubdate)
         val image: ImageView = view.findViewById(R.id.imageNews)
+        val btnReadLater: Button = view.findViewById(R.id.btnReadLater)
+        val btnRemoveFavorite: Button = view.findViewById(R.id.btnRemoveFavorite)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -41,10 +49,18 @@ class NewsAdapter(private val onItemClick: (Item) -> Unit) : ListAdapter<Item, N
             holder.image.setImageResource(R.drawable.ic_launcher_background) // Заглушка, если нет изображения
         }
 
-        // Обработка нажатия на карточку
-        holder.itemView.setOnClickListener {
-            onItemClick(item) // Передаем выбранный объект новости в activity
-        }
+        // Отображение кнопок в зависимости от фрагмента
+        holder.btnReadLater.visibility = if (showReadLater) View.VISIBLE else View.GONE
+        holder.btnRemoveFavorite.visibility = if (showReadLater) View.GONE else View.VISIBLE
+
+        // Обработчик нажатия на карточку
+        holder.itemView.setOnClickListener { onItemClick(item) }
+
+        // Обработчик нажатия на кнопку "Читать позже"
+        holder.btnReadLater.setOnClickListener { onReadLaterClick(item) }
+
+        // Обработчик нажатия на кнопку "Удалить из избранного"
+        holder.btnRemoveFavorite.setOnClickListener { onRemoveFavoriteClick(item) }
     }
 }
 

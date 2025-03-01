@@ -1,13 +1,32 @@
 package by.bsuir.rssreaderapp.ui.favorite
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import by.bsuir.rssreaderapp.DatabaseHelper
+import by.bsuir.rssreaderapp.model.Item
 
-class FavoriteViewModel : ViewModel() {
+class FavoriteViewModel(context: Context) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is favorite Fragment"
+    private val databaseHelper = DatabaseHelper(context)
+
+    private val _favoriteItems = MutableLiveData<List<Item>>()
+    val favoriteItems: LiveData<List<Item>> get() = _favoriteItems
+
+    init {
+        // Загружаем избранные новости при создании ViewModel
+        loadFavoriteNews()
     }
-    val text: LiveData<String> = _text
+
+    /**
+     * Загружает избранные новости из базы данных и обновляет LiveData
+     */
+    fun loadFavoriteNews() {
+        // Получаем все новости из базы данных
+        val favoriteFeeds = databaseHelper.getAllItems()
+
+        // Обновляем LiveData
+        _favoriteItems.value = favoriteFeeds
+    }
 }

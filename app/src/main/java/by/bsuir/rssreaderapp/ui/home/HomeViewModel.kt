@@ -22,7 +22,7 @@ class HomeViewModel : ViewModel() {
         loadRSS() // Загружаем RSS сразу при создании ViewModel
     }
 
-    private fun loadRSS() {
+    fun loadRSS() {
         val call = RetrofitServiceGenerator.createService().getFeed(rssLink)
         call.enqueue(object : Callback<RSSObject> {
             override fun onFailure(call: Call<RSSObject>, t: Throwable) {
@@ -45,7 +45,9 @@ class HomeViewModel : ViewModel() {
                                 enclosure = item.enclosure,
                                 categories = item.categories
                             )
+
                         }
+
                         _news.postValue(newsList)
                     }
                 }

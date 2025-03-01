@@ -10,5 +10,6 @@ data class Item(
     val description: String,
     val content: String,
     val enclosure: Enclosure,
-    val categories: List<String>
+    val categories: List<String>,
+    val id: Int? = null
 )

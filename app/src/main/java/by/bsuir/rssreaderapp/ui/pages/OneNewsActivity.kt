@@ -58,12 +58,12 @@ class OneNewsActivity : AppCompatActivity() {
         dateTextView.text = date
 
         // Когда WebView закончит загрузку, скрываем старые элементы и показываем новостную страницу
-        webView.setWebViewClient(object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 hideTextViews()  // Скрываем текстовые элементы при открытии новостной страницы
             }
-        })
+        }
     }
 
     private fun hideTextViews() {
