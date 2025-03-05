@@ -23,9 +23,10 @@ class FavoriteFragment : Fragment() {
     private lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Использование фабрики для создания ViewModel с передачей контекста
         favoriteViewModel =
             ViewModelProvider(this, FavoriteViewModelFactory(requireContext()))[FavoriteViewModel::class.java]
@@ -33,7 +34,7 @@ class FavoriteFragment : Fragment() {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Инициализация DatabaseHelper с контекстом
+        // Инициализация DatabaseHelper
         databaseHelper = DatabaseHelper(requireContext())
 
         // Настройка RecyclerView

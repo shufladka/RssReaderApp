@@ -14,10 +14,15 @@ import by.bsuir.rssreaderapp.model.Item
 import com.bumptech.glide.Glide
 
 class NewsAdapter(
-    private val showReadLater: Boolean, // Определяет, в каком фрагменте отображаются элементы
+    // Флаг отображения записи в списке "Читать позже"
+    private val showReadLater: Boolean,
     private val onItemClick: (Item) -> Unit,
-    private val onReadLaterClick: (Item) -> Unit,  // Обработчик для "Читать позже"
-    private val onRemoveFavoriteClick: (Item) -> Unit // Обработчик для "Удалить из избранного"
+
+    // Обработчик для раздела "Читать позже"
+    private val onReadLaterClick: (Item) -> Unit,
+
+    // Обработчик для раздела "Главная"
+    private val onRemoveFavoriteClick: (Item) -> Unit
 ) : ListAdapter<Item, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     class NewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -46,10 +51,11 @@ class NewsAdapter(
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.image)
         } else {
-            holder.image.setImageResource(R.drawable.ic_launcher_background) // Заглушка, если нет изображения
+            // Заглушка, если нет изображения
+            holder.image.setImageResource(R.drawable.ic_launcher_background)
         }
 
-        // Отображение кнопок в зависимости от фрагмента
+        // Отображение кнопок в зависимости от статуса
         holder.btnReadLater.visibility = if (showReadLater) View.VISIBLE else View.GONE
         holder.btnRemoveFavorite.visibility = if (showReadLater) View.GONE else View.VISIBLE
 

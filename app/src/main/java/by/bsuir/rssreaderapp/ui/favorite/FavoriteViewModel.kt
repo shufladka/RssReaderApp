@@ -19,10 +19,9 @@ class FavoriteViewModel(context: Context) : ViewModel() {
         loadFavoriteNews()
     }
 
-    /**
-     * Загружает избранные новости из базы данных и обновляет LiveData
-     */
+    // Загрузка избранных новостей из базы данных и обновление LiveData
     fun loadFavoriteNews() {
+
         // Получаем все новости из базы данных
         val favoriteFeeds = databaseHelper.getAllItems()
 

@@ -31,8 +31,8 @@ class DatabaseHelper(context: Context) :
         private const val COLUMN_CATEGORIES = "categories"
     }
 
+    // Создание таблицы для хранения записей в списке "Читать позже"
     override fun onCreate(db: SQLiteDatabase?) {
-        // Создаем таблицу news для хранения данных новостей
         val createNewsTable = """
             CREATE TABLE $TABLE_NEWS (
                 $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,11 +53,13 @@ class DatabaseHelper(context: Context) :
         db?.execSQL(createNewsTable)
     }
 
+    // Пересоздание таблицы новостей
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NEWS")
         onCreate(db)
     }
 
+    // Сохранение записи
     fun insertItem(item: Item): Long {
         val db = writableDatabase
         db.beginTransaction()
@@ -100,6 +102,7 @@ class DatabaseHelper(context: Context) :
         return id
     }
 
+    // Получение всех записей из списка "Читать позже"
     fun getAllItems(): List<Item> {
         val items = mutableListOf<Item>()
         val db = readableDatabase
@@ -137,6 +140,43 @@ class DatabaseHelper(context: Context) :
         return items
     }
 
+    // Получение записи по идентификатору
+    fun getItemById(id: Int): Item? {
+        val db = readableDatabase
+        var item: Item? = null
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NEWS WHERE $COLUMN_ID = ?", arrayOf(id.toString()))
+
+        cursor.use {
+            if (it.moveToFirst()) {
+                try {
+                    val title = it.getString(it.getColumnIndexOrThrow(COLUMN_TITLE))
+                    val pubDate = it.getString(it.getColumnIndexOrThrow(COLUMN_PUB_DATE))
+                    val link = it.getString(it.getColumnIndexOrThrow(COLUMN_LINK))
+                    val guid = it.getString(it.getColumnIndexOrThrow(COLUMN_GUID))
+                    val author = it.getString(it.getColumnIndexOrThrow(COLUMN_AUTHOR))
+                    val thumbnail = it.getString(it.getColumnIndexOrThrow(COLUMN_THUMBNAIL))
+                    val description = it.getString(it.getColumnIndexOrThrow(COLUMN_DESCRIPTION))
+                    val content = it.getString(it.getColumnIndexOrThrow(COLUMN_CONTENT))
+                    val enclosureLink = it.getString(it.getColumnIndexOrThrow(COLUMN_ENCLOSURE_LINK)) ?: "empty_link"
+                    val enclosureType = it.getString(it.getColumnIndexOrThrow(COLUMN_ENCLOSURE_TYPE)) ?: "empty_type"
+                    val enclosureLength = it.getInt(it.getColumnIndexOrThrow(COLUMN_ENCLOSURE_LENGTH)).takeIf { it > 0 } ?: 0
+
+                    val categories = it.getString(it.getColumnIndexOrThrow(COLUMN_CATEGORIES)).split(",").toList()
+                    val enclosure = Enclosure(enclosureLink, enclosureType, enclosureLength)
+                    val itemId = it.getInt(it.getColumnIndexOrThrow(COLUMN_ID))
+
+                    item = Item(title, pubDate, link, guid, author, thumbnail, description, content, enclosure, categories, itemId)
+                } catch (e: Exception) {
+                    Log.e("DatabaseError", "Error processing row: ${e.message}")
+                }
+            }
+        }
+
+        db.close()
+        return item
+    }
+
+    // Обновление записи
     fun updateItem(item: Item): Int {
         val db = writableDatabase
         val values = ContentValues().apply {
@@ -158,6 +198,7 @@ class DatabaseHelper(context: Context) :
         return affectedRows
     }
 
+    // Удаление записи
     fun deleteItem(item: Item) {
         val db = writableDatabase
         db.delete(TABLE_NEWS, "$COLUMN_ID = ?", arrayOf(item.id.toString()))

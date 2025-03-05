@@ -36,13 +36,18 @@ class OneNewsActivity : AppCompatActivity() {
 
         // Действие кнопки "назад"
         toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()   // Возвращаемся назад к HomeFragment
+            // Возвращаемся назад к HomeFragment
+            onBackPressedDispatcher.onBackPressed()
         }
 
         // Настроим WebView
         val webView: WebView = findViewById(R.id.htmlWebView)
-//        webView.settings.javaScriptEnabled = false // Отключаем JS для безопасности
-        webView.webViewClient = WebViewClient() // Открываем ссылки внутри WebView
+
+        // Отключаем JS
+        webView.settings.javaScriptEnabled = false
+
+        // Открываем ссылки внутри WebView
+        webView.webViewClient = WebViewClient()
 
         // Скрываем текстовые элементы, пока не начнется загрузка
         hideTextViews()
@@ -61,25 +66,22 @@ class OneNewsActivity : AppCompatActivity() {
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                hideTextViews()  // Скрываем текстовые элементы при открытии новостной страницы
+
+                // Скрываем текстовые элементы при открытии новостной страницы
+                hideTextViews()
             }
         }
     }
 
+    // Скрываем текстовые элементы при разворачивании содержимого страницы
     private fun hideTextViews() {
-        // Скрываем текстовые элементы
         findViewById<TextView>(R.id.oneTextTitle).visibility = android.view.View.GONE
         findViewById<TextView>(R.id.oneTextPubdate).visibility = android.view.View.GONE
     }
 
-    private fun showTextViews() {
-        // Показываем текстовые элементы, если нужно
-        findViewById<TextView>(R.id.oneTextTitle).visibility = android.view.View.VISIBLE
-        findViewById<TextView>(R.id.oneTextPubdate).visibility = android.view.View.VISIBLE
-    }
-
+    // Обработка кнопки "Назад"
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed() // Используем новый способ для обработки кнопки "назад"
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 }

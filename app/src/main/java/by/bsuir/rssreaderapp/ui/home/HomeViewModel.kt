@@ -19,7 +19,8 @@ class HomeViewModel : ViewModel() {
     private val rssLink = "https://www.onliner.by/feed"
 
     init {
-        loadRSS() // Загружаем RSS сразу при создании ViewModel
+        // Загружаем RSS сразу при создании ViewModel
+        loadRSS()
     }
 
     fun loadRSS() {

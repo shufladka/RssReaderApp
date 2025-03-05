@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
 
         databaseHelper = DatabaseHelper(requireContext())
 
-        // Настройка RecyclerView с параметром showReadLater = true
+        // Настройка RecyclerView
         newsAdapter = NewsAdapter(
             showReadLater = true,
             onItemClick = { item ->
