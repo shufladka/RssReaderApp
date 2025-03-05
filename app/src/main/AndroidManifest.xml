@@ -15,6 +15,10 @@
         android:theme="@style/Theme.RssReaderApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.pages.OneNewsActivity"
+            android:label="@string/title_feed"
+            android:theme="@style/Theme.OneNews" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">

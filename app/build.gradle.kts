@@ -18,6 +18,17 @@ android {
     }
 
     buildTypes {
+        create("debugPG") {
+            isDebuggable = false
+            isMinifyEnabled = true
+            versionNameSuffix = "debugPG"
+            matchingFallbacks.add("debug")
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                file("proguard-rules.pro")
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -34,6 +45,8 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+//        compose = true
+        buildConfig = true
         viewBinding = true
     }
 }
@@ -48,13 +61,15 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.logging.interceptor)
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.glide)
-//    implementation(libs.html.textview)
 }
